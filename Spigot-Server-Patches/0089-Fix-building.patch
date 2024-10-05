@@ -1,0 +1,26 @@
+From 13e3b3aee57a0b310e4466469364281b67cb4344 Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sat, 5 Oct 2024 12:38:23 +0800
+Subject: [PATCH] Fix building
+
+
+diff --git a/src/test/java/org/bukkit/MaterialTest.java b/src/test/java/org/bukkit/MaterialTest.java
+index 9a4a232e..3be0a962 100644
+--- a/src/test/java/org/bukkit/MaterialTest.java
++++ b/src/test/java/org/bukkit/MaterialTest.java
+@@ -21,9 +21,9 @@ public class MaterialTest extends AbstractTestingBase {
+     public void verifyMapping() {
+         Map<Integer, Material> materials = Maps.newHashMap();
+         for (Material material : Material.values()) {
+-            if (INVALIDATED_MATERIALS.contains(material)) {
+-                continue;
+-            }
++            //if (INVALIDATED_MATERIALS.contains(material)) {
++            //    continue;
++            //}
+ 
+             materials.put(material.getId(), material);
+         }
+-- 
+2.41.0.windows.3
+

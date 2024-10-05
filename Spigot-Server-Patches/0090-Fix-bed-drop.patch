@@ -1,0 +1,455 @@
+From 39d5e4c3145a0758137af5033e6113290a064739 Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sat, 5 Oct 2024 12:52:53 +0800
+Subject: [PATCH] Fix bed drop
+
+
+diff --git a/dependency-reduced-pom.xml b/dependency-reduced-pom.xml
+new file mode 100644
+index 00000000..376c25d6
+--- /dev/null
++++ b/dependency-reduced-pom.xml
+@@ -0,0 +1,247 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++  <parent>
++    <artifactId>paperspigot-parent</artifactId>
++    <groupId>org.github.paperspigot</groupId>
++    <version>dev-SNAPSHOT</version>
++  </parent>
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>org.github.paperspigot</groupId>
++  <artifactId>paperspigot</artifactId>
++  <name>PaperSpigot</name>
++  <version>1.7.10-R0.1-SNAPSHOT</version>
++  <url>https://github.com/PaperSpigot/Spigot</url>
++  <build>
++    <defaultGoal>install</defaultGoal>
++    <pluginManagement>
++      <plugins>
++        <plugin>
++          <groupId>org.eclipse.m2e</groupId>
++          <artifactId>lifecycle-mapping</artifactId>
++          <version>1.0.0</version>
++          <configuration>
++            <lifecycleMappingMetadata>
++              <pluginExecutions>
++                <pluginExecution>
++                  <pluginExecutionFilter>
++                    <groupId>com.lukegb.mojo</groupId>
++                    <artifactId>gitdescribe-maven-plugin</artifactId>
++                    <versionRange>[1.3,)</versionRange>
++                    <goals>
++                      <goal>gitdescribe</goal>
++                    </goals>
++                  </pluginExecutionFilter>
++                  <action>
++                    <ignore />
++                  </action>
++                </pluginExecution>
++              </pluginExecutions>
++            </lifecycleMappingMetadata>
++          </configuration>
++        </plugin>
++      </plugins>
++    </pluginManagement>
++    <plugins>
++      <plugin>
++        <groupId>net.md-5</groupId>
++        <artifactId>scriptus</artifactId>
++        <version>0.2</version>
++        <executions>
++          <execution>
++            <id>ex-paperspigot</id>
++            <phase>initialize</phase>
++            <goals>
++              <goal>describe</goal>
++            </goals>
++            <configuration>
++              <format>git-PaperSpigot-%s</format>
++              <scmDirectory>../</scmDirectory>
++              <descriptionProperty>paperspigot.desc</descriptionProperty>
++            </configuration>
++          </execution>
++        </executions>
++      </plugin>
++      <plugin>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.1</version>
++        <configuration>
++          <archive>
++            <manifestEntries>
++              <Main-Class>org.bukkit.craftbukkit.Main</Main-Class>
++              <Implementation-Title>CraftBukkit</Implementation-Title>
++              <Implementation-Version>${paperspigot.desc}</Implementation-Version>
++              <Implementation-Vendor>Bukkit Team</Implementation-Vendor>
++              <Specification-Title>Bukkit</Specification-Title>
++              <Specification-Version>${api.version}</Specification-Version>
++              <Specification-Vendor>Bukkit Team</Specification-Vendor>
++              <Sealed>true</Sealed>
++              <Timestamp>${maven.build.timestamp}</Timestamp>
++            </manifestEntries>
++            <manifestSections>
++              <manifestSection>
++                <name>net/bukkit/</name>
++                <manifestEntries>
++                  <Sealed>true</Sealed>
++                </manifestEntries>
++              </manifestSection>
++              <manifestSection>
++                <name>com/bukkit/</name>
++                <manifestEntries>
++                  <Sealed>true</Sealed>
++                </manifestEntries>
++              </manifestSection>
++              <manifestSection>
++                <name>org/bukkit/</name>
++                <manifestEntries>
++                  <Sealed>true</Sealed>
++                </manifestEntries>
++              </manifestSection>
++            </manifestSections>
++          </archive>
++        </configuration>
++      </plugin>
++      <plugin>
++        <artifactId>maven-shade-plugin</artifactId>
++        <version>2.1</version>
++        <executions>
++          <execution>
++            <phase>package</phase>
++            <goals>
++              <goal>shade</goal>
++            </goals>
++            <configuration>
++              <relocations>
++                <relocation>
++                  <pattern>org.bouncycastle</pattern>
++                  <shadedPattern>net.minecraft.v${minecraft_version}.org.bouncycastle</shadedPattern>
++                </relocation>
++                <relocation>
++                  <pattern>joptsimple</pattern>
++                  <shadedPattern>org.bukkit.craftbukkit.libs.joptsimple</shadedPattern>
++                </relocation>
++                <relocation>
++                  <pattern>jline</pattern>
++                  <shadedPattern>org.bukkit.craftbukkit.libs.jline</shadedPattern>
++                </relocation>
++                <relocation>
++                  <pattern>org.ibex</pattern>
++                  <shadedPattern>org.bukkit.craftbukkit.libs.org.ibex</shadedPattern>
++                </relocation>
++                <relocation>
++                  <pattern>org.gjt</pattern>
++                  <shadedPattern>org.bukkit.craftbukkit.libs.org.gjt</shadedPattern>
++                </relocation>
++                <relocation>
++                  <pattern>com.google.gson</pattern>
++                  <shadedPattern>org.bukkit.craftbukkit.libs.com.google.gson</shadedPattern>
++                </relocation>
++                <relocation>
++                  <pattern>org.bukkit.craftbukkit</pattern>
++                  <shadedPattern>org.bukkit.craftbukkit.v${minecraft_version}</shadedPattern>
++                  <excludes>
++                    <exclude>org.bukkit.craftbukkit.Main*</exclude>
++                  </excludes>
++                </relocation>
++                <relocation>
++                  <pattern>net.minecraft.server</pattern>
++                  <shadedPattern>net.minecraft.server.v${minecraft_version}</shadedPattern>
++                </relocation>
++              </relocations>
++            </configuration>
++          </execution>
++        </executions>
++      </plugin>
++      <plugin>
++        <artifactId>maven-compiler-plugin</artifactId>
++        <version>2.3.2</version>
++        <configuration>
++          <source>7</source>
++          <target>7</target>
++        </configuration>
++      </plugin>
++      <plugin>
++        <artifactId>maven-surefire-plugin</artifactId>
++        <version>2.11</version>
++        <configuration>
++          <workingDirectory>${basedir}/target/test-server</workingDirectory>
++          <excludes>
++            <exclude>org/bukkit/craftbukkit/updater/BukkitDLUpdaterServiceTest.java</exclude>
++            <exclude>org/bukkit/craftbukkit/inventory/ItemStack*Test.java</exclude>
++          </excludes>
++        </configuration>
++      </plugin>
++      <plugin>
++        <artifactId>maven-resources-plugin</artifactId>
++        <version>2.4.3</version>
++        <executions>
++          <execution>
++            <id>maps-file</id>
++            <phase>package</phase>
++            <goals>
++              <goal>copy-resources</goal>
++            </goals>
++            <configuration>
++              <outputDirectory>${basedir}/target</outputDirectory>
++              <resources>
++                <resource>
++                  <directory>${basedir}</directory>
++                  <filtering>true</filtering>
++                  <includes>
++                    <include>maps.yml</include>
++                  </includes>
++                </resource>
++              </resources>
++            </configuration>
++          </execution>
++        </executions>
++      </plugin>
++    </plugins>
++  </build>
++  <repositories>
++    <repository>
++      <id>repobo-snap</id>
++      <url>https://repo.mikeprimm.com</url>
++    </repository>
++  </repositories>
++  <pluginRepositories>
++    <pluginRepository>
++      <id>bukkit-plugins</id>
++      <url>https://repo.mikeprimm.com</url>
++    </pluginRepository>
++  </pluginRepositories>
++  <dependencies>
++    <dependency>
++      <groupId>junit</groupId>
++      <artifactId>junit</artifactId>
++      <version>4.11</version>
++      <scope>test</scope>
++      <exclusions>
++        <exclusion>
++          <artifactId>hamcrest-core</artifactId>
++          <groupId>org.hamcrest</groupId>
++        </exclusion>
++      </exclusions>
++    </dependency>
++    <dependency>
++      <groupId>org.hamcrest</groupId>
++      <artifactId>hamcrest-library</artifactId>
++      <version>1.3</version>
++      <scope>test</scope>
++      <exclusions>
++        <exclusion>
++          <artifactId>hamcrest-core</artifactId>
++          <groupId>org.hamcrest</groupId>
++        </exclusion>
++      </exclusions>
++    </dependency>
++  </dependencies>
++  <properties>
++    <api.version>unknown</api.version>
++    <buildtag.prefix>git-Bukkit-</buildtag.prefix>
++    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    <minecraft.version>1.7.10</minecraft.version>
++    <junit.version>4.11</junit.version>
++    <minecraft_version>1_7_R4</minecraft_version>
++  </properties>
++</project>
++
+diff --git a/src/main/java/net/minecraft/server/BlockBed.java b/src/main/java/net/minecraft/server/BlockBed.java
+new file mode 100644
+index 00000000..f9e6beca
+--- /dev/null
++++ b/src/main/java/net/minecraft/server/BlockBed.java
+@@ -0,0 +1,187 @@
++// Decompiled with: CFR 0.152
++// Class Version: 6
++package net.minecraft.server;
++
++import java.util.Random;
++import net.minecraft.server.BiomeBase;
++import net.minecraft.server.Block;
++import net.minecraft.server.BlockDirectional;
++import net.minecraft.server.ChatMessage;
++import net.minecraft.server.ChunkCoordinates;
++import net.minecraft.server.EntityHuman;
++import net.minecraft.server.EnumBedResult;
++import net.minecraft.server.IBlockAccess;
++import net.minecraft.server.Item;
++import net.minecraft.server.Items;
++import net.minecraft.server.Material;
++import net.minecraft.server.World;
++
++public class BlockBed
++extends BlockDirectional {
++    public static final int[][] a = new int[][]{{0, 1}, {-1, 0}, {0, -1}, {1, 0}};
++
++    public BlockBed() {
++        super(Material.CLOTH);
++        this.e();
++    }
++
++    @Override
++    public boolean interact(World world, int n, int n2, int n3, EntityHuman entityHuman, int n4, float f, float f2, float f3) {
++        EnumBedResult enumBedResult;
++        if (world.isStatic) {
++            return true;
++        }
++        int n5 = world.getData(n, n2, n3);
++        if (!BlockBed.b(n5)) {
++            int n6 = BlockBed.l(n5);
++            if (world.getType(n += a[n6][0], n2, n3 += a[n6][1]) != this) {
++                return true;
++            }
++            n5 = world.getData(n, n2, n3);
++        }
++        if (!world.worldProvider.e() || world.getBiome(n, n3) == BiomeBase.HELL) {
++            double d = (double)n + 0.5;
++            double d2 = (double)n2 + 0.5;
++            double d3 = (double)n3 + 0.5;
++            world.setAir(n, n2, n3);
++            int n7 = BlockBed.l(n5);
++            if (world.getType(n += a[n7][0], n2, n3 += a[n7][1]) == this) {
++                world.setAir(n, n2, n3);
++                d = (d + (double)n + 0.5) / 2.0;
++                d2 = (d2 + (double)n2 + 0.5) / 2.0;
++                d3 = (d3 + (double)n3 + 0.5) / 2.0;
++            }
++            world.createExplosion(null, (float)n + 0.5f, (float)n2 + 0.5f, (float)n3 + 0.5f, 5.0f, true, true);
++            return true;
++        }
++        if (BlockBed.c(n5)) {
++            EntityHuman entityHuman2 = null;
++            for (EntityHuman entityHuman3 : world.players) {
++                if (!entityHuman3.isSleeping()) continue;
++                ChunkCoordinates chunkCoordinates = entityHuman3.bB;
++                if (chunkCoordinates.x != n || chunkCoordinates.y != n2 || chunkCoordinates.z != n3) continue;
++                entityHuman2 = entityHuman3;
++            }
++            if (entityHuman2 == null) {
++                BlockBed.a(world, n, n2, n3, false);
++            } else {
++                entityHuman.b(new ChatMessage("tile.bed.occupied", new Object[0]));
++                return true;
++            }
++        }
++        if ((enumBedResult = entityHuman.a(n, n2, n3)) == EnumBedResult.OK) {
++            BlockBed.a(world, n, n2, n3, true);
++            return true;
++        }
++        if (enumBedResult == EnumBedResult.NOT_POSSIBLE_NOW) {
++            entityHuman.b(new ChatMessage("tile.bed.noSleep", new Object[0]));
++        } else if (enumBedResult == EnumBedResult.NOT_SAFE) {
++            entityHuman.b(new ChatMessage("tile.bed.notSafe", new Object[0]));
++        }
++        return true;
++    }
++
++    @Override
++    public int b() {
++        return 14;
++    }
++
++    @Override
++    public boolean d() {
++        return false;
++    }
++
++    @Override
++    public boolean c() {
++        return false;
++    }
++
++    @Override
++    public void updateShape(IBlockAccess iBlockAccess, int n, int n2, int n3) {
++        this.e();
++    }
++
++    @Override
++    public void doPhysics(World world, int n, int n2, int n3, Block block) {
++        int n4 = world.getData(n, n2, n3);
++        int n5 = BlockBed.l(n4);
++        if (BlockBed.b(n4)) {
++            if (world.getType(n - a[n5][0], n2, n3 - a[n5][1]) != this) {
++                world.setAir(n, n2, n3);
++            }
++        } else if (world.getType(n + a[n5][0], n2, n3 + a[n5][1]) != this) {
++            world.setAir(n, n2, n3);
++            if (!world.isStatic) {
++                this.b(world, n, n2, n3, n4, 0);
++            }
++        }
++    }
++
++    @Override
++    public Item getDropType(int n, Random random, int n2) {
++        if (BlockBed.b(n)) {
++            return Item.getById(0);
++        }
++        return Item.getById(355);
++    }
++
++    private void e() {
++        this.a(0.0f, 0.0f, 0.0f, 1.0f, 0.5625f, 1.0f);
++    }
++
++    public static boolean b(int n) {
++        return (n & 8) != 0;
++    }
++
++    public static boolean c(int n) {
++        return (n & 4) != 0;
++    }
++
++    public static void a(World world, int n, int n2, int n3, boolean bl) {
++        int n4 = world.getData(n, n2, n3);
++        n4 = bl ? (n4 |= 4) : (n4 &= 0xFFFFFFFB);
++        world.setData(n, n2, n3, n4, 4);
++    }
++
++    public static ChunkCoordinates a(World world, int n, int n2, int n3, int n4) {
++        int n5 = world.getData(n, n2, n3);
++        int n6 = BlockDirectional.l(n5);
++        for (int i = 0; i <= 1; ++i) {
++            int n7 = n - a[n6][0] * i - 1;
++            int n8 = n3 - a[n6][1] * i - 1;
++            int n9 = n7 + 2;
++            int n10 = n8 + 2;
++            for (int j = n7; j <= n9; ++j) {
++                for (int k = n8; k <= n10; ++k) {
++                    if (!World.a(world, j, n2 - 1, k) || world.getType(j, n2, k).getMaterial().k() || world.getType(j, n2 + 1, k).getMaterial().k()) continue;
++                    if (n4 > 0) {
++                        --n4;
++                        continue;
++                    }
++                    return new ChunkCoordinates(j, n2, k);
++                }
++            }
++        }
++        return null;
++    }
++
++    @Override
++    public void dropNaturally(World world, int n, int n2, int n3, int n4, float f, int n5) {
++        if (!BlockBed.b(n4)) {
++            super.dropNaturally(world, n, n2, n3, n4, f, 0);
++        }
++    }
++
++    @Override
++    public int h() {
++        return 1;
++    }
++
++    @Override
++    public void a(World world, int n, int n2, int n3, int n4, EntityHuman entityHuman) {
++        int n5;
++        if (entityHuman.abilities.canInstantlyBuild && BlockBed.b(n4) && world.getType(n -= a[n5 = BlockBed.l(n4)][0], n2, n3 -= a[n5][1]) == this) {
++            world.setAir(n, n2, n3);
++        }
++    }
++}
+-- 
+2.41.0.windows.3
+

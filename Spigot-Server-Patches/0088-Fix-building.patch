@@ -1,0 +1,79 @@
+From 5640c13947df4bf16d8c0b3f9ee2ecc08812f99b Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sat, 5 Oct 2024 12:33:49 +0800
+Subject: [PATCH] Fix building
+
+
+diff --git a/pom.xml b/pom.xml
+index 34cbf19c..df237d41 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -28,14 +28,14 @@
+   <repositories>
+     <repository>
+       <id>repobo-snap</id>
+-      <url>http://repo.bukkit.org/content/groups/public</url>
++      <url>https://repo.mikeprimm.com</url>
+     </repository>
+   </repositories>
+ 
+   <pluginRepositories>
+     <pluginRepository>
+       <id>bukkit-plugins</id>
+-      <url>http://repo.bukkit.org/content/groups/public</url>
++      <url>https://repo.mikeprimm.com</url>
+     </pluginRepository>
+   </pluginRepositories>
+ 
+@@ -244,8 +244,8 @@
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>2.3.2</version>
+         <configuration>
+-          <source>1.6</source>
+-          <target>1.6</target>
++          <source>7</source>
++          <target>7</target>
+         </configuration>
+       </plugin>
+       <plugin>
+@@ -285,24 +285,6 @@
+           </execution>
+         </executions>
+       </plugin>
+-      <plugin>
+-        <groupId>com.wolvereness</groupId>
+-        <artifactId>overmapped</artifactId>
+-        <version>0.0.2</version>
+-        <executions>
+-          <execution>
+-            <phase>package</phase>
+-            <goals>
+-              <goal>map</goal>
+-            </goals>
+-            <configuration>
+-              <maps>${basedir}/target/maps.yml</maps>
+-              <input>${basedir}/target/${project.artifactId}-${project.version}.jar</input>
+-              <original>${basedir}/target/unmapped-${project.artifactId}-${project.version}.jar</original>
+-            </configuration>
+-          </execution>
+-        </executions>
+-      </plugin>
+     </plugins>
+     <pluginManagement>
+       <plugins>
+diff --git a/src/test/java/org/bukkit/MaterialTest.java b/src/test/java/org/bukkit/MaterialTest.java
+index a63c0f4d..9a4a232e 100644
+--- a/src/test/java/org/bukkit/MaterialTest.java
++++ b/src/test/java/org/bukkit/MaterialTest.java
+@@ -27,7 +27,7 @@ public class MaterialTest extends AbstractTestingBase {
+ 
+             materials.put(material.getId(), material);
+         }
+-        materials.remove(0); // Purge air.
++        //materials.remove(0); // Purge air.
+ 
+         Iterator<Item> items = Item.REGISTRY.iterator();
+ 
+-- 
+2.41.0.windows.3
+

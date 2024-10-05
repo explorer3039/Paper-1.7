@@ -1,0 +1,26 @@
+From 74d6f06fd6e71d72ddb584dcdb2c09eebd8b7446 Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sat, 5 Oct 2024 12:14:13 +0800
+Subject: [PATCH] Register some ItemBlocks
+
+
+diff --git a/src/main/java/net/minecraft/server/Item.java b/src/main/java/net/minecraft/server/Item.java
+index 4382f1ab..40b7ab5d 100644
+--- a/src/main/java/net/minecraft/server/Item.java
++++ b/src/main/java/net/minecraft/server/Item.java
+@@ -289,9 +289,9 @@ public class Item {
+                 object = new ItemWithAuxData(block, true);
+                 // CraftBukkit end
+             } else {
+-                if (hashset.contains(block)) {
+-                    continue;
+-                }
++                //if (hashset.contains(block)) {
++                //    continue;
++                //}
+ 
+                 object = new ItemBlock(block);
+             }
+-- 
+2.41.0.windows.3
+
