@@ -1,0 +1,21 @@
+From 37370ad67d9628deb94630ba6a7702b1ac5061a5 Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sun, 6 Oct 2024 13:55:08 +0800
+Subject: [PATCH] fix
+
+
+diff --git a/src/main/java/net/minecraft/server/Block.java b/src/main/java/net/minecraft/server/Block.java
+index ed31eb39..314ad451 100644
+--- a/src/main/java/net/minecraft/server/Block.java
++++ b/src/main/java/net/minecraft/server/Block.java
+@@ -294,6 +294,7 @@ public class Block {
+         REGISTRY.a(189, "birch_fence", (new BlockFence("planks_birch", Material.WOOD)).c(2.0F).b(5.0F).a(f).c("fence"));
+         REGISTRY.a(190, "jungle_fence", (new BlockFence("planks_jungle", Material.WOOD)).c(2.0F).b(5.0F).a(f).c("fence"));
+         REGISTRY.a(191, "dark_oak_fence", (new BlockFence("planks_big_oak", Material.WOOD)).c(2.0F).b(5.0F).a(f).c("fence"));
++        REGISTRY.a(192, "acacia_fence", (new BlockFence("planks_acacia", Material.WOOD)).c(2.0F).b(5.0F).a(f).c("fence"));
+         Iterator iterator = REGISTRY.iterator();
+ 
+         while (iterator.hasNext()) {
+-- 
+2.41.0.windows.3
+

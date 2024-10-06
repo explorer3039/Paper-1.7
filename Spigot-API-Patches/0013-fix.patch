@@ -1,0 +1,30 @@
+From 9bff88bb06c3d19cf9b5e6ccba84e1672d04a0ba Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sun, 6 Oct 2024 13:58:52 +0800
+Subject: [PATCH] fix
+
+
+diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
+index 236c3fbb..51604a89 100644
+--- a/src/main/java/org/bukkit/Material.java
++++ b/src/main/java/org/bukkit/Material.java
+@@ -960,16 +960,6 @@ public enum Material {
+             case LOG_2:
+             case CARPET:
+             case DOUBLE_PLANT:
+-            case SPRUCE_FENCE_GATE:
+-            case BIRCH_FENCE_GATE:
+-            case JUNGLE_FENCE_GATE:
+-            case DARK_OAK_FENCE_GATE:
+-            case ACACIA_FENCE_GATE:
+-            case SPRUCE_FENCE:
+-            case BIRCH_FENCE:
+-            case JUNGLE_FENCE:
+-            case DARK_OAK_FENCE:
+-            case ACACIA_FENCE:
+                 return true;
+             default:
+                 return false;
+-- 
+2.41.0.windows.3
+

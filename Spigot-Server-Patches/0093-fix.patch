@@ -1,0 +1,22 @@
+From 778331713f0bbd16b66e2bfa3e2d018d314264f9 Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sun, 6 Oct 2024 13:36:26 +0800
+Subject: [PATCH] fix
+
+
+diff --git a/src/main/java/net/minecraft/server/Block.java b/src/main/java/net/minecraft/server/Block.java
+index 7a295155..ed31eb39 100644
+--- a/src/main/java/net/minecraft/server/Block.java
++++ b/src/main/java/net/minecraft/server/Block.java
+@@ -278,7 +278,7 @@ public class Block {
+         REGISTRY.a(162, "log2", (new BlockLog2()).c("log").d("log"));
+         REGISTRY.a(163, "acacia_stairs", (new BlockStairs(block1, 4)).c("stairsWoodAcacia"));
+         REGISTRY.a(164, "dark_oak_stairs", (new BlockStairs(block1, 5)).c("stairsWoodDarkOak"));
+-        REGISTRY.a(167, "iron_trapdoor", (new BlockTrapdoor(Material.IRON)).c(5.0F).a(j).c("iron_trapdoor").H().d("iron_trapdoor"));
++        REGISTRY.a(167, "iron_trapdoor", (new BlockTrapdoor(Material.ORE)).c(5.0F).a(j).c("iron_trapdoor").H().d("iron_trapdoor"));
+         REGISTRY.a(170, "hay_block", (new BlockHay()).c(0.5F).a(h).c("hayBlock").a(CreativeModeTab.b).d("hay_block"));
+         REGISTRY.a(171, "carpet", (new BlockCarpet()).c(0.1F).a(l).c("woolCarpet").g(0));
+         REGISTRY.a(172, "hardened_clay", (new BlockHardenedClay()).c(1.25F).b(7.0F).a(i).c("clayHardened").d("hardened_clay"));
+-- 
+2.41.0.windows.3
+

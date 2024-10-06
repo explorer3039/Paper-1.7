@@ -1,0 +1,104 @@
+From 52cd5c256106b586315e897055d710011c88e08e Mon Sep 17 00:00:00 2001
+From: explorer3039 <2124986348@qq.com>
+Date: Sun, 6 Oct 2024 13:47:10 +0800
+Subject: [PATCH] fix
+
+
+diff --git a/pom.xml b/pom.xml
+index 6dde8579..de565835 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -31,8 +31,8 @@
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>2.3.2</version>
+                 <configuration>
+-                    <source>1.6</source>
+-                    <target>1.6</target>
++                    <source>7</source>
++                    <target>7</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
+index c45c1805..236c3fbb 100644
+--- a/src/main/java/org/bukkit/Material.java
++++ b/src/main/java/org/bukkit/Material.java
+@@ -229,12 +229,23 @@ public enum Material {
+     LOG_2(162),
+     ACACIA_STAIRS(163, Stairs.class),
+     DARK_OAK_STAIRS(164, Stairs.class),
++    IRON_TRAPDOOR(167, TrapDoor.class),
+     HAY_BLOCK(170),
+     CARPET(171),
+     HARD_CLAY(172),
+     COAL_BLOCK(173),
+     PACKED_ICE(174),
+     DOUBLE_PLANT(175),
++    SPRUCE_FENCE_GATE(183, Gate.class),
++    BIRCH_FENCE_GATE(184, Gate.class),
++    JUNGLE_FENCE_GATE(185, Gate.class),
++    DARK_OAK_FENCE_GATE(186, Gate.class),
++    ACACIA_FENCE_GATE(187, Gate.class),
++    SPRUCE_FENCE(188),
++    BIRCH_FENCE(189),
++    JUNGLE_FENCE(190),
++    DARK_OAK_FENCE(191),
++    ACACIA_FENCE(192),
+     // ----- Item Separator -----
+     IRON_SPADE(256, 1, 250),
+     IRON_PICKAXE(257, 1, 250),
+@@ -777,6 +788,17 @@ public enum Material {
+             case ACACIA_STAIRS:
+             case DARK_OAK_STAIRS:
+             case PACKED_ICE:
++            case IRON_TRAPDOOR:
++            case SPRUCE_FENCE_GATE:
++            case BIRCH_FENCE_GATE:
++            case JUNGLE_FENCE_GATE:
++            case DARK_OAK_FENCE_GATE:
++            case ACACIA_FENCE_GATE:
++            case SPRUCE_FENCE:
++            case BIRCH_FENCE:
++            case JUNGLE_FENCE:
++            case DARK_OAK_FENCE:
++            case ACACIA_FENCE:
+                 return true;
+             default:
+                 return false;
+@@ -889,6 +911,16 @@ public enum Material {
+             case LOG_2:
+             case ACACIA_STAIRS:
+             case DARK_OAK_STAIRS:
++            case SPRUCE_FENCE_GATE:
++            case BIRCH_FENCE_GATE:
++            case JUNGLE_FENCE_GATE:
++            case DARK_OAK_FENCE_GATE:
++            case ACACIA_FENCE_GATE:
++            case SPRUCE_FENCE:
++            case BIRCH_FENCE:
++            case JUNGLE_FENCE:
++            case DARK_OAK_FENCE:
++            case ACACIA_FENCE:
+                 return true;
+             default:
+                 return false;
+@@ -928,6 +960,16 @@ public enum Material {
+             case LOG_2:
+             case CARPET:
+             case DOUBLE_PLANT:
++            case SPRUCE_FENCE_GATE:
++            case BIRCH_FENCE_GATE:
++            case JUNGLE_FENCE_GATE:
++            case DARK_OAK_FENCE_GATE:
++            case ACACIA_FENCE_GATE:
++            case SPRUCE_FENCE:
++            case BIRCH_FENCE:
++            case JUNGLE_FENCE:
++            case DARK_OAK_FENCE:
++            case ACACIA_FENCE:
+                 return true;
+             default:
+                 return false;
+-- 
+2.41.0.windows.3
+
